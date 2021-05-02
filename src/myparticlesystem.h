@@ -10,5 +10,6 @@ namespace agl {
       virtual void createParticles(int size) override;
       virtual void update(float dt) override;
    };
+
 }
 #endif

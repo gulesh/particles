@@ -107,6 +107,7 @@ void Renderer::begin(GLuint texIf, BlendMode mode)
 {
    assert(mInitialized);
 
+   // glUseProgram(mShaderId);
    glUseProgram(mShaderId);
    blendMode(mode);
 

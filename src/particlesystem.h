@@ -36,6 +36,7 @@ namespace agl {
       GLuint mTexture;
       BlendMode mBlendMode;
       static Renderer theRenderer;
+      
    };
 }
 #endif
