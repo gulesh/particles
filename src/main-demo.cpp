@@ -16,9 +16,14 @@ using namespace agl;
 
 MyParticleSystem theSystem;
 
-static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+//globals
+float clickPosX;
+float clickPosY;
+
+static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
-   if (action != GLFW_PRESS) return;
+   if (action != GLFW_PRESS)
+      return;
 
    if (key == GLFW_KEY_ESCAPE)
    {
@@ -26,38 +31,52 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
    }
 }
 
-static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+static void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
    // Prevent a divide by zero
-   if (height == 0) height = 1;
+   if (height == 0)
+      height = 1;
 
    // Set Viewport to window dimensions
    glViewport(0, 0, width, height);
    ParticleSystem::GetRenderer().perspective(radians(60.0f), 1.0f, 0.1f, 100.0f);
 }
 
-static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+static void scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
 {
 }
 
-static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+static void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
+{
+   double xpos, ypos;
+   glfwGetCursorPos(window, &xpos, &ypos);
+
+   // TODO: Camera controls
+   int state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+   if (state == GLFW_PRESS)
+   {
+      clickPosX = xpos;
+      clickPosY = ypos;
+
+      theSystem.setClickPos(vec3(clickPosX, clickPosY,0));
+      cout << vec3(clickPosX, clickPosY,0) << endl;
+   }
+}
+
+static void cursor_position_callback(GLFWwindow *window, double xpos, double ypos)
 {
 }
 
-static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+int main(int argc, char **argv)
 {
-}
-
-int main(int argc, char** argv)
-{
-   GLFWwindow* window;
+   GLFWwindow *window;
 
    if (!glfwInit())
    {
       return -1;
    }
 
-   // Explicitly ask for a 4.0 context 
+   // Explicitly ask for a 4.0 context
    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -92,7 +111,7 @@ int main(int argc, char** argv)
    glEnable(GL_CULL_FACE);
    glClearColor(0, 0, 0, 1);
 
-   theSystem.init(500); // TODO: Set number of particles here
+   theSystem.init(1); // TODO: Set number of particles here
    float fov = radians(30.0f);
    ParticleSystem::GetRenderer().perspective(fov, 1.0f, 0.1f, 10.0f);
    ParticleSystem::GetRenderer().lookAt(vec3(0, 0, 4), vec3(0, 0, 0));
@@ -118,4 +137,3 @@ int main(int argc, char** argv)
    glfwTerminate();
    return 0;
 }
-

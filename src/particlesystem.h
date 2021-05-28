@@ -6,17 +6,22 @@
 #include "renderer.h"
 #include <vector>
 
-namespace agl {
+namespace agl
+{
 
-   struct Particle {
+   struct Particle
+   {
       glm::vec3 pos;
       glm::vec3 vel;
       glm::vec4 color;
       float size;
       float mass;
+      float lifespan;
+      // glm::vec3 gravity = glm::vec3(0, 0, 0);
    };
 
-   class ParticleSystem {
+   class ParticleSystem
+   {
    public:
       ParticleSystem();
       virtual ~ParticleSystem();
@@ -25,18 +30,16 @@ namespace agl {
       virtual void update(float dt) = 0;
       virtual void draw();
 
-      static Renderer& GetRenderer();
-      
+      static Renderer &GetRenderer();
+
    protected:
       virtual void createParticles(int size) = 0;
 
    protected:
-
       std::vector<Particle> mParticles;
       GLuint mTexture;
       BlendMode mBlendMode;
       static Renderer theRenderer;
-      
    };
 }
 #endif

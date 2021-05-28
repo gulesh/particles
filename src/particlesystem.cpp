@@ -7,7 +7,7 @@ using namespace agl;
 
 Renderer ParticleSystem::theRenderer;
 
-Renderer& ParticleSystem::GetRenderer()
+Renderer &ParticleSystem::GetRenderer()
 {
    return theRenderer;
 }
@@ -31,7 +31,7 @@ void ParticleSystem::init(int size)
    createParticles(size);
 }
 
-void ParticleSystem::draw() 
+void ParticleSystem::draw()
 {
    theRenderer.begin(mTexture, mBlendMode);
    for (int i = 0; i < mParticles.size(); i++)
